@@ -1,0 +1,15 @@
+.local/
+.env
+.env.local
+*.secrets.json
+**/bin/
+**/obj/
+**/node_modules/
+web/dist/
+web/.angular/
+web/out-tsc/
+src/Fitness.Api/wwwroot/
+__pycache__/
+playwright-report/
+test-results/
+.DS_Store

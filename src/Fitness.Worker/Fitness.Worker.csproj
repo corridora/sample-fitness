@@ -1,0 +1,6 @@
+<Project Sdk="Azure.Functions.Sdk/1.0.0"><ItemGroup>
+<ProjectReference Include="../Fitness.Core/Fitness.Core.csproj" />
+<PackageReference Include="Microsoft.Azure.Functions.Worker" Version="2.52.0" />
+<PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Storage.Queues" Version="5.5.0" />
+<PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Timer" Version="4.3.1" />
+</ItemGroup><ItemGroup><None Update="host.json"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></None></ItemGroup></Project>

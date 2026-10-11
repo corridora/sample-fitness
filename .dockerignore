@@ -1,0 +1,9 @@
+.git
+.local
+**/node_modules
+**/bin
+**/obj
+**/wwwroot
+web/dist
+.env*
+tests

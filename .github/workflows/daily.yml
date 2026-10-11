@@ -1,0 +1,32 @@
+name: Daily fitness incident and watchdog
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '3 14 * * *'
+    - cron: '30 14 * * *'
+permissions:
+  contents: read
+jobs:
+  journey:
+    if: vars.ENABLE_SYNTHETICS == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    concurrency:
+      group: fitness-synthetic
+      cancel-in-progress: false
+    env:
+      PUBLIC_URL: ${{ vars.PUBLIC_URL }}
+      DEMO_CONTROL_TOKEN: ${{ secrets.DEMO_CONTROL_TOKEN }}
+      CORRIDORA_RUM_KEY: ${{ secrets.CORRIDORA_RUM_KEY }}
+      CORRIDORA_RUM_SCRIPT_URL: ${{ vars.CORRIDORA_RUM_SCRIPT_URL || 'https://rum.corridora.com/corridora-rum.js' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '26'
+      - run: npm ci --ignore-scripts && npx playwright install --with-deps chromium
+        working-directory: web
+      - run: python3 synthetics/daily.py
+        if: github.event.schedule != '30 14 * * *'
+      - run: python3 synthetics/daily.py --watchdog
+        if: github.event.schedule == '30 14 * * *'
